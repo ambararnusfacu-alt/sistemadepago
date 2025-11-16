@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facturación Suplementos - Registrar Pago</title>
+  <link rel="stylesheet" href="css/V6massotistilos.css">
+ 
+</head>
+
+<body>
+  <!-- Barra superior -->
+  <div class="utilbar">
+    <div class="util-left"></div>
+    <div class="util-right">
+      <a href="#" class="util-link">¡Hola! Iniciá sesión</a>
+      <span class="dot">·</span>
+      <a href="#" class="util-link">o podés registrarte</a>
+      <button class="cart-btn" title="Carrito">🛒</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <form class="search">
+      <input type="search" placeholder="¿Qué estás buscando?" aria-label="Buscar"/>
+      <button type="submit" aria-label="Buscar">🔍</button>
+    </form>
+    <div class="logo">
+      <span>SUPLEMENTACIÓN</span>
+      <small>ÁMBAR</small>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" title="Cuenta">👤</button>
+      <button class="icon-btn" title="Notificaciones">🔔</button>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="#" class="nav-link">INICIO</a>
+    <a href="#" class="nav-link">PRODUCTOS</a>
+    <a href="#" class="nav-link">MARCAS</a>
+    <a href="#" class="nav-link">COMBOS</a>
+    <a href="#" class="nav-link">CREATINA</a>
+    <a href="#" class="nav-link">PROTEÍNA</a>
+    <a href="#" class="nav-link">QUIÉNES SOMOS</a>
+  </nav>
+
+  <!-- Tabs internas -->
+  <div class="tabs">
+    <button data-tab="empresas" class="tab-btn active">ABM Empresas</button>
+    <button data-tab="ventas"   class="tab-btn">Ventas</button>
+    <button data-tab="pagos"    class="tab-btn">Registrar Pago</button>
+    <button data-tab="reportes" class="tab-btn">Reporte Ventas</button>
+  </div>
+
+  <main class="container">
+    <!-- ========== EMPRESAS ========== -->
+    <section id="empresas" class="tab active">
+      <h2>ABM de Empresas</h2>
+      <form id="empresaForm" class="card">
+        <input type="hidden" id="empresaId"/>
+        <div class="grid">
+          <label>Nombre
+            <input id="empresaNombre" required placeholder="Suplementación La Plata"/>
+          </label>
+          <label>CUIT
+            <input id="empresaCuit" placeholder="30-00000000-0"/>
+          </label>
+          <label>Email
+            <input id="empresaEmail" type="email" placeholder="facturacion@empresa.com"/>
+          </label>
+          <label>Teléfono
+            <input id="empresaTel" placeholder="+54 9 221..."/>
+          </label>
+          <label>Estado
+            <select id="empresaEstado">
+              <option value="1" selected>Activa</option>
+              <option value="0">Inactiva</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">Guardar</button>
+          <button type="button" id="empresaCancelar" class="btn ghost">Cancelar</button>
+        </div>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Nombre</th><th>CUIT</th><th>Email</th><th>Teléfono</th><th>Estado</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="empresaTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== VENTAS ========== -->
+    <section id="ventas" class="tab">
+      <h2>Ventas</h2>
+      <form id="ventaForm" class="card" style="margin-top:12px">
+        <div class="grid">
+          <label>Empresa
+            <select id="ventaEmpresa" required></select>
+          </label>
+          <label>Comprador / Cliente
+            <input id="ventaCliente" placeholder="Nombre y apellido" required/>
+          </label>
+          <label>Medio de Pago
+            <select id="ventaMedio" required></select>
+          </label>
+        </div>
+
+        <h3>Ítems</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th><th class="right">Cantidad</th><th class="right">Precio Unit.</th><th class="right">Subtotal</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <button type="button" id="btnAgregarItem" class="btn">+ Agregar ítem</button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="actions">
+          <div style="margin-right:auto;font-weight:600">Total: <span id="ventaTotal">$0,00</span></div>
+          <button type="submit" class="btn primary">Aceptar compra</button>
+          <button type="button" id="ventaLimpiar" class="btn ghost">Limpiar</button>
+        </div>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Empresa</th><th>Comprobante</th><th>Fecha</th>
+              <th class="right">Neto</th><th class="right">Pagado</th><th>Estado</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ventasTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== PAGOS (estructura mínima, usa tus IDs si ya tenías el form) ========== -->
+    <section id="pagos" class="tab">
+      <h2>Registrar Pago</h2>
+      <form id="pagoForm" class="card">
+        <div class="grid">
+          <label>Empresa
+            <select id="pagoEmpresa" required></select>
+          </label>
+          <label>Venta
+            <select id="pagoVenta" required></select>
+          </label>
+          <label>Medio de Pago
+            <select id="pagoMedio" required></select>
+          </label>
+          <label>Monto (ARS)
+            <input id="pagoMonto" type="number" min="0" step="0.01" required/>
+          </label>
+          <label>Referencia / TxID
+            <input id="pagoRef" placeholder="Nº operación, alias, CAE..."/>
+          </label>
+          <label>Observación
+            <input id="pagoObs" placeholder="Seña, promo Cuenta DNI, etc."/>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">Aplicar Pago</button>
+          <button type="button" id="pagoLimpiar" class="btn ghost">Limpiar</button>
+        </div>
+        <p class="subtle" id="pagoInfoVenta">Seleccioná empresa y venta para ver saldo.</p>
+      </form>
+
+      <h3>Pagos de la venta</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Fecha</th><th>Medio</th><th class="right">Monto</th><th>Ref</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="pagosTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== REPORTE (ÚNICA sección con id="reportes") ========== -->
+    <section id="reportes" class="tab">
+      <h2>Reporte Ventas</h2>
+
+      <div class="toolbar card">
+        <label>Empresa
+          <select id="regEmpresa"></select>
+        </label>
+        <label>Desde
+          <input id="regDesde" type="date"/>
+        </label>
+        <label>Hasta
+          <input id="regHasta" type="date"/>
+        </label>
+        <button id="regFiltrar" class="btn primary" type="button">Filtrar</button>
+        <button id="regLimpiar" class="btn ghost" type="button">Limpiar</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Empresa</th>
+              <th>Cliente</th>
+              <th>Comprobante</th>
+              <th class="right">Neto</th>
+              <th class="right">Pagado</th>
+              <th>Estado</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="regTbody"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="right strong">Totales</td>
+              <td id="regTotalNeto" class="right">$0,00</td>
+              <td id="regTotalPagado" class="right">$0,00</td>
+              <td id="regResumenEstado" colspan="2">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Tienda de Suplementos — Módulo de Facturación (Registrar Pago) — Demo LocalStorage</small>
+  </footer>
+  <script src="V6massotijava.js"></script>
+</body>
+</html>
